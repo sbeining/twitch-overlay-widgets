@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/pokedex.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/pokedex.js"></script>
+  </head>
+
+  <body>
+    <div class="pokedex">
+    </div>
+
+    <script type = 'text/javascript'>
+      //Connect to socket
+      const socket = new WebSocket('ws://127.0.0.1:8081/broadcast');
+      const pokedex = new Pokedex('.pokedex');
+
+      socket.onmessage = function(event) {
+        var pokemon = JSON.parse(event.data);
+        if (pokemon.pokemon) {
+          pokedex.display(pokemon);
+        }
+      };
+
+      // Listen for socket closes
+      socket.onclose = function(event) {
+        pokedex.close();
+      };
+    </script>
+  </body>
+</html>
