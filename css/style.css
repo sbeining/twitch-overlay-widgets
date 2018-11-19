@@ -1,0 +1,36 @@
+body {
+  background-color: #00FF00;
+}
+
+#speech {
+  position: absolute;
+  background-image: url('../gfx/speech.png');
+  right: 60px;
+  bottom: 65px;
+  width: 358px;
+  height: 123px;
+  padding: 10px 20px 10px 10px;
+  font-size: 28px;
+  font-family: gameovercre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  opacity: 0;
+}
+
+#speech .highlight {
+  -webkit-text-stroke: 1px #62428a;
+  color: white;
+  font-weight: bold
+}
+
+#logo {
+  opacity: 0.25;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 45px;
+  height: 45px;
+  background-image: url('../gfx/icon.png');
+  background-size: 45px;
+}

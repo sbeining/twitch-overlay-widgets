@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js' type='text/javascript'></script>
+  </head>
+
+  <body>
+    <div id="speech"></div>
+    <div id="logo"></div>
+
+    <script type = 'text/javascript'>
+      const socketToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6IkNFMTFDOTZDMTUzOTA0MUZCNzhFIiwicmVhZF9vbmx5Ijp0cnVlLCJwcmV2ZW50X21hc3RlciI6dHJ1ZSwidHdpdGNoX2lkIjoiMzY3Njk5NjUifQ.SfwsvgrB2NuLeYg3Kh3ojLVWW9jvYNWzSdImpr_BIkA'; //Socket token from /socket/token end point
+
+      //Connect to socket
+      const streamlabs = io(`https://sockets.streamlabs.com?token=${socketToken}`);
+
+      //Perform Action on event
+      streamlabs.on('event', (eventData) => {
+        if (!eventData.for || eventData.for === 'streamlabs' && eventData.type === 'donation') {
+          //code to handle donation events
+          console.log(eventData.message);
+        }
+        if (eventData.for === 'twitch_account') {
+          switch(eventData.type) {
+            case 'follow':
+              follow(eventData.message[0].name);
+              break;
+            case 'subscription':
+              subscribe(eventData.message[0].name);
+              break;
+            default:
+              //default case
+              console.log(eventData.message);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
