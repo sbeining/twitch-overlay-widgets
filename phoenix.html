@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <link rel="stylesheet" type="text/css" href="css/phoenix.css">
+    <script src="js/phoenix.js"></script>
+  </head>
+  <body>
+    <div id="character" class="invisible">
+      <div id="objection" class="invisible faster"></div>
+      <div id="hold_it" class="invisible faster"></div>
+      <div id="take_that" class="invisible faster"></div>
+    </div>
+
+    <script type = 'text/javascript'>
+      //Connect to socket
+      const socket = new WebSocket('ws://127.0.0.1:8081/broadcast');
+
+      let cooldown = false
+
+      socket.onmessage = async function(event) {
+        if (cooldown) {
+          console.log('cooldown!')
+          return
+        }
+
+        startCooldown(30000);
+
+        var data = JSON.parse(event.data);
+        if (data.animation == 'phoenix|objection') {
+          await objection()
+        }
+
+        if (data.animation == 'phoenix|holdit') {
+          await holdIt()
+        }
+
+        if (data.animation == 'phoenix|takethat') {
+          await takeThat()
+        }
+      };
+
+      function startCooldown(ms) {
+        cooldown = true
+        setTimeout(function() { cooldown = false }, ms)
+      }
+    </script>
+  </body>
+</html>
